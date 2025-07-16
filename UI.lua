@@ -55,6 +55,112 @@ local function makeDraggable(frame)
     end)
 end
 
+function UI.CreateWindow(titleText)
+    -- ScreenGui parent
+    local screenGui = Instance.new("ScreenGui")
+    screenGui.Name = "ModularUILibrary"
+    screenGui.ResetOnSpawn = false
+    screenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+
+    -- Main window frame
+    local window = Instance.new("Frame")
+    window.Name = "MainWindow"
+    window.Size = UDim2.new(0, 450, 0, 320)
+    window.Position = UDim2.new(0.5, -225, 0.5, -160)
+    window.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+    window.BorderSizePixel = 0
+    window.AnchorPoint = Vector2.new(0.5, 0.5)
+    window.Parent = screenGui
+
+    -- Make draggable with your function
+    UI.makeDraggable(window)
+
+    -- Title bar
+    local titleBar = Instance.new("Frame")
+    titleBar.Size = UDim2.new(1, 0, 0, 32)
+    titleBar.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+    titleBar.Parent = window
+
+    local titleLabel = Instance.new("TextLabel")
+    titleLabel.Text = titleText or "Modular UI Library"
+    titleLabel.Font = Enum.Font.GothamBold
+    titleLabel.TextSize = 22
+    titleLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+    titleLabel.BackgroundTransparency = 1
+    titleLabel.Size = UDim2.new(1, -20, 1, 0)
+    titleLabel.Position = UDim2.new(0, 10, 0, 0)
+    titleLabel.TextXAlignment = Enum.TextXAlignment.Left
+    titleLabel.Parent = titleBar
+
+    -- Tab buttons container (left side)
+    local tabButtons = Instance.new("Frame")
+    tabButtons.Size = UDim2.new(0, 110, 1, -32)
+    tabButtons.Position = UDim2.new(0, 0, 0, 32)
+    tabButtons.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
+    tabButtons.Parent = window
+
+    local UIListLayout = Instance.new("UIListLayout")
+    UIListLayout.Padding = UDim.new(0, 6)
+    UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
+    UIListLayout.Parent = tabButtons
+
+    -- Tab content container (right side)
+    local tabContent = Instance.new("Frame")
+    tabContent.Size = UDim2.new(1, -110, 1, -32)
+    tabContent.Position = UDim2.new(0, 110, 0, 32)
+    tabContent.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+    tabContent.Parent = window
+
+    -- Keep track of tabs and current tab
+    local tabs = {}
+    local currentTab = nil
+
+    -- Tab creation function, so you can add tabs to this window
+    function UI.CreateTab(name)
+        local btn = Instance.new("TextButton")
+        btn.Text = name
+        btn.Size = UDim2.new(1, -10, 0, 38)
+        btn.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
+        btn.AutoButtonColor = false
+        btn.Font = Enum.Font.GothamSemibold
+        btn.TextSize = 18
+        btn.TextColor3 = Color3.fromRGB(220, 220, 220)
+        btn.Parent = tabButtons
+
+        btn.MouseEnter:Connect(function()
+            tweenObject(btn, {BackgroundColor3 = Color3.fromRGB(70, 70, 70)}, 0.15)
+        end)
+        btn.MouseLeave:Connect(function()
+            if currentTab ~= tabs[name] then
+                tweenObject(btn, {BackgroundColor3 = Color3.fromRGB(45, 45, 45)}, 0.15)
+            end
+        end)
+
+        local content = Instance.new("Frame")
+        content.Size = UDim2.new(1, 0, 1, 0)
+        content.BackgroundTransparency = 1
+        content.Visible = false
+        content.Parent = tabContent
+
+        btn.MouseButton1Click:Connect(function()
+            if currentTab then
+                currentTab.Visible = false
+                tabs[currentTab.Name].Button.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
+            end
+            content.Visible = true
+            currentTab = content
+            currentTab.Name = name
+            btn.BackgroundColor3 = Color3.fromRGB(70, 70, 70)
+        end)
+
+        tabs[name] = {Frame = content, Button = btn}
+        return content
+    end
+
+    -- Return window & tab creator so you can chain calls
+    return window, UI.CreateTab
+end
+
 -- Mobile-friendly slider dragging
 local function makeSliderDraggable(sliderBar, sliderFill, label, text, min, max, callback)
     local dragging = false
