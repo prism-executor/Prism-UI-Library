@@ -14,7 +14,7 @@ function UI.CreateWindow(title, version)
 	
 	local frame = Instance.new("Frame")
 	frame.Size = UDim2.new(0, 350, 0, 500)
-	frame.Position = UDim2.new(0.5, -175, 0.5, -250)
+	frame.Position = UDim2.new(0.5, 0, 0.5, 0)
 	frame.BackgroundColor3 = Color3.fromRGB(25, 25, 30)
 	frame.BorderSizePixel = 0
 	frame.AnchorPoint = Vector2.new(0.5, 0.5)
