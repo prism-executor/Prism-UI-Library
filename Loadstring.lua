@@ -1,4 +1,4 @@
-local UI = require(path_to_ui_module)
+local UI = loadstring(game:HttpGet("https://raw.githubusercontent.com/prism-executor/Prism-UI-Library/main/UI.lua"))()
 
 UI.CreateWindow("My UI", "v1.0")
 
