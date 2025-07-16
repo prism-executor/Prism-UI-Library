@@ -253,6 +253,58 @@ end
 
 -- CreateWindow, CreateTab, CreateToggle and CreateSlider remain mostly the same, except
 -- Update slider creation to call makeSliderDraggable for full mobile support:
+function UI.CreateToggle(parent, text, default, callback)
+    local frame = Instance.new("Frame")
+    frame.Size = UDim2.new(1, 0, 0, 30)
+    frame.BackgroundTransparency = 1
+    frame.Parent = parent
+
+    local label = Instance.new("TextLabel")
+    label.Text = text
+    label.Font = Enum.Font.GothamSemibold
+    label.TextSize = 16
+    label.TextColor3 = Color3.fromRGB(210, 210, 230)
+    label.BackgroundTransparency = 1
+    label.Size = UDim2.new(0.7, 0, 1, 0)
+    label.TextXAlignment = Enum.TextXAlignment.Left
+    label.Parent = frame
+
+    local toggleBtn = Instance.new("TextButton")
+    toggleBtn.Size = UDim2.new(0, 50, 0, 22)
+    toggleBtn.Position = UDim2.new(1, -60, 0, 4)
+    toggleBtn.BackgroundColor3 = default and Color3.fromRGB(0, 170, 0) or Color3.fromRGB(170, 0, 0)
+    toggleBtn.Text = default and "ON" or "OFF"
+    toggleBtn.Font = Enum.Font.GothamBold
+    toggleBtn.TextSize = 14
+    toggleBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+    toggleBtn.Parent = frame
+
+    -- Add rounded corners for that smooth obsidian look
+    local corner = Instance.new("UICorner")
+    corner.CornerRadius = UDim.new(0, 6)
+    corner.Parent = toggleBtn
+
+    local enabled = default
+
+    local function updateToggle(state)
+        enabled = state
+        toggleBtn.Text = enabled and "ON" or "OFF"
+        tweenObject(toggleBtn, {BackgroundColor3 = enabled and Color3.fromRGB(0, 170, 0) or Color3.fromRGB(170, 0, 0)}, 0.2)
+        if callback then callback(enabled) end
+    end
+
+    toggleBtn.MouseButton1Click:Connect(function()
+        updateToggle(not enabled)
+    end)
+
+    -- Support touch input as well (mobile)
+    toggleBtn.TouchTap:Connect(function()
+        updateToggle(not enabled)
+    end)
+
+    return frame
+end
+
 
 function UI.CreateSlider(parent, text, min, max, default, callback)
     local frame = Instance.new("Frame")
