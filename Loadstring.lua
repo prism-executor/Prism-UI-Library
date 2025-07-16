@@ -1,8 +1,8 @@
 local UI = loadstring(game:HttpGet("https://raw.githubusercontent.com/prism-executor/Prism-UI-Library/main/UI.lua"))()
 
-UI.CreateWindow("My UI", "v1.0")
+UI.CreateWindow("Prism", "v1.0")
 
-local tab = UI.CreateTab("Settings")
+local tab = UI.CreateTab("Exploits")
 
 local leftGroup = UI.CreateLeftGroup(tab)
 local rightGroup = UI.CreateRightGroup(tab)
