@@ -1,4 +1,4 @@
-local UI = loadstring(game:HttpGet("https://raw.githubusercontent.com/YourUser/YourRepo/main/UI.lua"))()
+local UI = loadstring(game:HttpGet("https://raw.githubusercontent.com/prism-executor/Prism-UI-Library/main/UI.lua"))()
 
 local combatTab = UI.CreateTab("Combat")
 local visualsTab = UI.CreateTab("Visuals")
