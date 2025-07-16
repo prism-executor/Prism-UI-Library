@@ -255,7 +255,15 @@ function UI.CreateRightGroup(parent)
     return groupAPI
 end
 
-function UI.CreateToggle(parent, text, default, callback)
+-- ... (same setup and helpers as before, omitted for brevity)
+
+-- Updated CreateToggle (accepts one table argument)
+function UI.CreateToggle(parent, options)
+    -- fallback for options keys
+    local text = options.Text or "Toggle"
+    local default = options.Default or false
+    local callback = options.Callback
+
     local frame = Instance.new("Frame")
     frame.Size = UDim2.new(1, 0, 0, 30)
     frame.BackgroundTransparency = 1
@@ -305,7 +313,14 @@ function UI.CreateToggle(parent, text, default, callback)
     return frame
 end
 
-function UI.CreateSlider(parent, text, min, max, default, callback)
+-- Updated CreateSlider (accepts one table argument)
+function UI.CreateSlider(parent, options)
+    local text = options.Text or "Slider"
+    local min = options.Min or 0
+    local max = options.Max or 100
+    local default = options.Default or min
+    local callback = options.Callback
+
     local frame = Instance.new("Frame")
     frame.Size = UDim2.new(1, 0, 0, 50)
     frame.BackgroundTransparency = 1
