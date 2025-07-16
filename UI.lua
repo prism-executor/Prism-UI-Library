@@ -13,7 +13,7 @@ function UI.CreateWindow(title, version)
 	screenGui.ZIndexBehavior = Enum.ZIndexBehavior.Global
 	
 	local frame = Instance.new("Frame")
-	frame.Size = UDim2.new(0, 350, 0, 500)
+	frame.Size = UDim2.new(0, 400, 0, 500)
 	frame.Position = UDim2.new(0.5, 0, 0.5, 0)
 	frame.BackgroundColor3 = Color3.fromRGB(25, 25, 30)
 	frame.BorderSizePixel = 0
