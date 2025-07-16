@@ -63,7 +63,7 @@ function UI.CreateWindow(titleText)
     -- Main window frame (taller than wide, obsidian vibe)
     local window = Instance.new("Frame")
     window.Name = "MainWindow"
-    window.Size = UDim2.new(0, 380, 0, 460) -- taller than wide
+    window.Size = UDim2.new(0, 450, 0, 500) -- taller than wide
     window.Position = UDim2.new(0.5, 0, 0.5, 0) -- start centered
     window.AnchorPoint = Vector2.new(0.5, 0.5)
     window.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
