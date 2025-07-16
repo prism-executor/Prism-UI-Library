@@ -69,6 +69,12 @@ function UI.CreateWindow(titleText)
     window.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
     window.BorderSizePixel = 0
     window.Parent = screenGui
+    window.ClipsDescendants = true
+
+    -- Start window off invisible & shifted down, then animate it in
+    window.Position = UDim2.new(0.5, 0, 0.5, 50)
+    window.BackgroundTransparency = 1
+    tweenObject(window, {BackgroundTransparency = 0, Position = UDim2.new(0.5, 0, 0.5, 0)}, 0.5)
 
     UI.makeDraggable(window)
 
@@ -108,11 +114,10 @@ function UI.CreateWindow(titleText)
     tabContent.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
     tabContent.Parent = window
 
-    -- Keep track of tabs and current tab
+    -- Track tabs and current tab
     local tabs = {}
     local currentTab = nil
 
-    -- Tab creation function, so you can add tabs to this window
     function UI.CreateTab(name)
         local btn = Instance.new("TextButton")
         btn.Text = name
@@ -154,7 +159,6 @@ function UI.CreateWindow(titleText)
         return content
     end
 
-    -- Return window & tab creator so you can chain calls
     return window, UI.CreateTab
 end
 
@@ -166,10 +170,8 @@ local function makeSliderDraggable(sliderBar, sliderFill, label, text, min, max,
     local function updateSlider(position)
         local relativeX = math.clamp(position.X - sliderBar.AbsolutePosition.X, 0, sliderBar.AbsoluteSize.X)
         local ratio = relativeX / sliderBar.AbsoluteSize.X
-        if ratio < 0 then ratio = 0 end
-        if ratio > 1 then ratio = 1 end
+        ratio = math.clamp(ratio, 0, 1)
 
-        -- Tween sliderFill size smoothly
         if lastTween then lastTween:Cancel() end
         lastTween = TweenService:Create(sliderFill, TweenInfo.new(0.15, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Size = UDim2.new(ratio, 0, 1, 0)})
         lastTween:Play()
@@ -205,7 +207,7 @@ local function makeSliderDraggable(sliderBar, sliderFill, label, text, min, max,
     end)
 end
 
--- UI Containers: left & right groups for better layout and spacing on mobile
+-- Containers for better layout & spacing on mobile
 function UI.CreateLeftGroup(parent)
     local frame = Instance.new("Frame")
     frame.Size = UDim2.new(0.5, -10, 1, 0)
@@ -213,18 +215,18 @@ function UI.CreateLeftGroup(parent)
     frame.Parent = parent
 
     local layout = Instance.new("UIListLayout")
-    layout.Padding = UDim.new(0, 8)  -- spacing between toggles/sliders
+    layout.Padding = UDim.new(0, 8)  
     layout.SortOrder = Enum.SortOrder.LayoutOrder
     layout.Parent = frame
 
     local groupAPI = {}
 
-    function groupAPI.CreateToggle(text, default, callback)
-        return UI.CreateToggle(frame, text, default, callback)
+    function groupAPI.CreateToggle(opts)
+        return UI.CreateToggle(frame, opts)
     end
 
-    function groupAPI.CreateSlider(text, min, max, default, callback)
-        return UI.CreateSlider(frame, text, min, max, default, callback)
+    function groupAPI.CreateSlider(opts)
+        return UI.CreateSlider(frame, opts)
     end
 
     return groupAPI
@@ -244,22 +246,19 @@ function UI.CreateRightGroup(parent)
 
     local groupAPI = {}
 
-    function groupAPI.CreateToggle(text, default, callback)
-        return UI.CreateToggle(frame, text, default, callback)
+    function groupAPI.CreateToggle(opts)
+        return UI.CreateToggle(frame, opts)
     end
 
-    function groupAPI.CreateSlider(text, min, max, default, callback)
-        return UI.CreateSlider(frame, text, min, max, default, callback)
+    function groupAPI.CreateSlider(opts)
+        return UI.CreateSlider(frame, opts)
     end
 
     return groupAPI
 end
 
--- ... (same setup and helpers as before, omitted for brevity)
-
--- Updated CreateToggle (accepts one table argument)
+-- CreateToggle (table arg)
 function UI.CreateToggle(parent, options)
-    -- fallback for options keys
     local text = options.Text or "Toggle"
     local default = options.Default or false
     local callback = options.Callback
@@ -313,7 +312,7 @@ function UI.CreateToggle(parent, options)
     return frame
 end
 
--- Updated CreateSlider (accepts one table argument)
+-- CreateSlider (table arg)
 function UI.CreateSlider(parent, options)
     local text = options.Text or "Slider"
     local min = options.Min or 0
