@@ -1,16 +1,24 @@
-local UI = loadstring(game:HttpGet("https://raw.githubusercontent.com/prism-executor/Prism-UI-Library/main/UI.lua"))()
+local UI = require(path_to_ui_module)
 
-local combatTab = UI.CreateTab("Combat")
-local visualsTab = UI.CreateTab("Visuals")
+UI.CreateWindow("My UI", "v1.0")
 
-UI.CreateToggle(combatTab, "Speed Hack", false, function(state)
-    print("Speed Hack toggled", state)
+local tab = UI.CreateTab("Settings")
+
+local leftGroup = UI.CreateLeftGroup(tab)
+local rightGroup = UI.CreateRightGroup(tab)
+
+leftGroup.CreateToggle("God Mode", false, function(state)
+    print("God Mode:", state)
 end)
 
-UI.CreateSlider(combatTab, "Speed Amount", 0, 100, 50, function(value)
-    print("Speed Amount set to", value)
+leftGroup.CreateSlider("Speed", 0, 100, 50, function(value)
+    print("Speed:", value)
 end)
 
-UI.CreateToggle(visualsTab, "ESP", false, function(state)
-    print("ESP toggled", state)
+rightGroup.CreateToggle("Noclip", true, function(state)
+    print("Noclip:", state)
+end)
+
+rightGroup.CreateSlider("Jump Power", 10, 200, 50, function(value)
+    print("Jump Power:", value)
 end)
