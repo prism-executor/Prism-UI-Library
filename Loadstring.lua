@@ -5,19 +5,20 @@ local tab = CreateTab("Exploits")
 
 local leftGroup = UI.CreateLeftGroup(tab)
 local rightGroup = UI.CreateRightGroup(tab)
+leftGroup.CreateToggle({
+    Text = "God Mode",
+    Default = false,
+    Callback = function(state)
+        print("God Mode toggled:", state)
+    end
+})
 
-leftGroup.CreateToggle("God Mode", false, function(state)
-    print("God Mode:", state)
-end)
-
-leftGroup.CreateSlider("Speed", 0, 100, 50, function(value)
-    print("Speed:", value)
-end)
-
-rightGroup.CreateToggle("Noclip", true, function(state)
-    print("Noclip:", state)
-end)
-
-rightGroup.CreateSlider("Jump Power", 10, 200, 50, function(value)
-    print("Jump Power:", value)
-end)
+leftGroup.CreateSlider({
+    Text = "Speed",
+    Min = 0,
+    Max = 100,
+    Default = 16,
+    Callback = function(value)
+        print("Speed value:", value)
+    end
+})
