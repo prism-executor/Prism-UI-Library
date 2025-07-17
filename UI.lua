@@ -237,31 +237,21 @@ function UI.CreateToggle(parent, opts)
     frame.BackgroundTransparency = 1
     frame.Parent = parent
 
-    local label = Instance.new("TextLabel")
-    label.Text = opts.Text or "Toggle"
-    label.Font = Enum.Font.GothamSemibold
-    label.TextSize = 16
-    label.TextColor3 = Color3.fromRGB(210,210,230)
-    label.BackgroundTransparency = 1
-    label.Size = UDim2.new(0.7,0,1,0)
-    label.TextXAlignment = Enum.TextXAlignment.Left
-    label.Parent = frame
-
     local btn = Instance.new("TextButton")
-    btn.Size = UDim2.new(0,50,0,22)
+    btn.Size = UDim2.new(0.7,0,0,30)
     btn.Position = UDim2.new(1,-60,0,4)
     btn.Font = Enum.Font.GothamBold
     btn.TextSize = 14
     btn.TextColor3 = Color3.new(1,1,1)
     btn.BackgroundColor3 = opts.Default and Color3.fromRGB(85,55,145) or Color3.fromRGB(170,0,0)
-    btn.Text = opts.Default and "ON" or "OFF"
+    btn.Text = opts.Text or "New Button"
     btn.Parent = frame
 
     tweenObject(btn, {BackgroundColor3 = btn.BackgroundColor3}, 0)
 
     btn.MouseButton1Click:Connect(function()
         opts.Default = not opts.Default
-        btn.Text = opts.Default and "ON" or "OFF"
+        btn.Text = opts.Text or "New Button"
         tweenObject(btn, {BackgroundColor3 = opts.Default and Color3.fromRGB(85,55,145) or Color3.fromRGB(170,0,0)}, 0.2)
         if opts.Callback then opts.Callback(opts.Default) end
     end)
