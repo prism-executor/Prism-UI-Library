@@ -238,8 +238,8 @@ function UI.CreateToggle(parent, opts)
     frame.Parent = parent
 
     local btn = Instance.new("TextButton")
-    btn.Size = UDim2.new(0.7,0,0,30)
-    btn.Position = UDim2.new(1,-60,0,4)
+    btn.Size = UDim2.new(1,0,0,30)
+    btn.Position = UDim2.new(1,0,0,4)
     btn.Font = Enum.Font.GothamBold
     btn.TextSize = 14
     btn.TextColor3 = Color3.new(1,1,1)
