@@ -247,6 +247,9 @@ function UI.CreateToggle(parent, opts)
     btn.Text = opts.Text or "New Button"
     btn.Parent = frame
 
+    local btnCorner = Instance.new("UICorner")
+    btnCorner.Parent = btn
+
     tweenObject(btn, {BackgroundColor3 = btn.BackgroundColor3}, 0)
 
     btn.MouseButton1Click:Connect(function()
